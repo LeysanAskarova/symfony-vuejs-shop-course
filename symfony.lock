@@ -82,6 +82,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.2"
     },
+    "egulias/email-validator": {
+        "version": "3.1.2"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
@@ -206,6 +209,18 @@
     "symfony/intl": {
         "version": "v4.4.34"
     },
+    "symfony/mailer": {
+        "version": "4.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "bbfc7e27257d3a3f12a6fb0a42540a42d9623a37"
+        },
+        "files": [
+            "config/packages/mailer.yaml"
+        ]
+    },
     "symfony/maker-bundle": {
         "version": "1.36",
         "recipe": {
@@ -264,6 +279,30 @@
             "config/packages/routing.yaml",
             "config/routes.yaml"
         ]
+    },
+    "symfony/security-bundle": {
+        "version": "4.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.4",
+            "ref": "7b4408dc203049666fe23fabed23cbadc6d8440f"
+        },
+        "files": [
+            "config/packages/security.yaml"
+        ]
+    },
+    "symfony/security-core": {
+        "version": "v4.4.34"
+    },
+    "symfony/security-csrf": {
+        "version": "v4.4.27"
+    },
+    "symfony/security-guard": {
+        "version": "v4.4.27"
+    },
+    "symfony/security-http": {
+        "version": "v4.4.34"
     },
     "symfony/service-contracts": {
         "version": "v1.1.11"
@@ -326,6 +365,9 @@
     },
     "symfony/yaml": {
         "version": "v4.4.34"
+    },
+    "symfonycasts/verify-email-bundle": {
+        "version": "v1.7.0"
     },
     "twig/twig": {
         "version": "v3.3.4"
