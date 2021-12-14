@@ -38,10 +38,9 @@ class RegistrationFormType extends AbstractType
 
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                #'label' => 'I agree to the <a href="#">privacy policy</a> *', for symfony 5.*
-                'label' => 'I agree to the privacy policy',
+                'label' => 'I agree to the <a href="#">privacy policy</a> *',
                 'required' => true,
-                # 'label_html' => true, for symfony 5.*
+                'label_html' => true,
                 'attr' => [
                     'class' => 'custom-control-input'
                 ],
