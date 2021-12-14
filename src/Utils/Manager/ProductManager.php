@@ -38,9 +38,13 @@ class ProductManager
         return $this->entityManager->getRepository(Product::class);
     }
 
-    public function remove()
+    /**
+     * @param Product $product
+     */
+    public function remove(Product $product)
     {
-        //
+        $product->setIsDeleted(true);
+        $this->save($product);
     }
 
     public function getProductImagesDir(Product $product)
