@@ -39,12 +39,13 @@ class ProductController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $product = $productFormHandler->processEditForm($product, $form);
 
-            return $this->redirectToRoute('admin_product_edit', ['id' =>$product.getId()]);
+            return $this->redirectToRoute('admin_product_edit', ['id' =>$product->getId()]);
         }
 
         return $this->render('admin/product/edit.html.twig', [
             'product' => $product,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'images' => $product->getProductImages()->getValues()
         ]);
     }
 
