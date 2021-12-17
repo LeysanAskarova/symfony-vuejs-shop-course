@@ -266,6 +266,9 @@
     "symfony/options-resolver": {
         "version": "v4.4.30"
     },
+    "symfony/password-hasher": {
+        "version": "v5.3.8"
+    },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.23.1"
     },
