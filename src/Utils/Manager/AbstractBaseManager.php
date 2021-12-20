@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Utils\Manager;
-
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
@@ -25,12 +23,12 @@ abstract class AbstractBaseManager
     abstract public function getRepository(): ObjectRepository;
 
     /**
-     * @param object $entity
+     * @param string $id
+     * @return object|null
      */
-    public function remove(object $entity)
+    public function find(string $id): ?object
     {
-        $this->entityManager->remove($entity);
-        $this->entityManager->flush();
+        return $this->getRepository()->find($id);
     }
 
     /**
@@ -39,6 +37,15 @@ abstract class AbstractBaseManager
     public function save(object $entity)
     {
         $this->entityManager->persist($entity);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param object $entity
+     */
+    public function remove(object $entity)
+    {
+        $this->entityManager->remove($entity);
         $this->entityManager->flush();
     }
 }
