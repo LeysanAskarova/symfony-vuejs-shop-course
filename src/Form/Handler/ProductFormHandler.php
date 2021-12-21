@@ -46,6 +46,7 @@ class ProductFormHandler
         $product->setQuantity($editProductModel->quantity);
         $product->setIsDeleted($editProductModel->isDeleted);
         $product->setIsPublished($editProductModel->isPublished);
+        $product->setCategory($editProductModel->category);
 
         $this->productManager->save($product);
 
