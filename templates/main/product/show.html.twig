@@ -67,7 +67,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                {{ render(controller('App\\Controller\\EmbedController::showSimilarProducts', {
+                {{ render(controller('App\\Controller\\Main\\EmbedController::showSimilarProducts', {
                     'productsCount': 4,
                     'categoryId': product.category.id
                 })) }}

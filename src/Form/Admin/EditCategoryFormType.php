@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Form;
+namespace App\Form\Admin;
 
 
 use App\Form\Model\EditCategoryModel;
