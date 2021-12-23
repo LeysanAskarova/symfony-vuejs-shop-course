@@ -77,6 +77,11 @@ class Product
      */
     private $category;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CardProduct::class, mappedBy="product", orphanRemoval=true)
+     */
+    private $cardProducts;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -84,6 +89,7 @@ class Product
         $this->isPublished = false;
         $this->isDeleted = false;
         $this->productImages = new ArrayCollection();
+        $this->cardProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -230,6 +236,36 @@ class Product
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CardProduct[]
+     */
+    public function getCardProducts(): Collection
+    {
+        return $this->cardProducts;
+    }
+
+    public function addCardProduct(CardProduct $cardProduct): self
+    {
+        if (!$this->cardProducts->contains($cardProduct)) {
+            $this->cardProducts[] = $cardProduct;
+            $cardProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCardProduct(CardProduct $cardProduct): self
+    {
+        if ($this->cardProducts->removeElement($cardProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($cardProduct->getProduct() === $this) {
+                $cardProduct->setProduct(null);
+            }
+        }
 
         return $this;
     }
