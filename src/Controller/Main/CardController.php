@@ -3,6 +3,7 @@
 namespace App\Controller\Main;
 
 use App\Repository\CardRepository;
+use App\Utils\Manager\OrderManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,5 +22,16 @@ class CardController extends AbstractController
         return $this->render('main/card/show.html.twig', [
             'card' => $card,
         ]);
+    }
+
+    /**
+     * @Route("/card/create", name="main_card_create")
+     */
+    public function create(Request $request, OrderManager $orderManager): Response
+    {
+        $phpSessionId = $request->cookies->get('PHPSESSID');
+        $user = $this->getUser();
+        $orderManager->createOrderFromCardBySessionId($phpSessionId, $user);
+        return $this->redirectToRoute('main_card_show');
     }
 }
