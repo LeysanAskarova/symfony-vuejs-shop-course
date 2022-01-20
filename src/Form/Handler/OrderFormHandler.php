@@ -4,9 +4,7 @@
 namespace App\Form\Handler;
 
 
-use App\Entity\Category;
 use App\Entity\Order;
-use App\Form\Model\EditCategoryModel;
 use App\Utils\Manager\OrderManager;
 
 class OrderFormHandler
