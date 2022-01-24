@@ -2,14 +2,53 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductRepository;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Uid\Uuid;
-
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 /**
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"="product:list"}
+ *          },
+ *          "post"={
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "normalization_context"={"groups"="product:list:write"}
+ *          }
+ *     },
+ *     itemOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"="product:item"}
+ *          },
+ *          "patch"={
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "normalization_context"={"groups"="product:item:write"}
+ *          }
+ *     },
+ *     order={
+ *          "id"="DESC"
+ *     },
+ *     attributes={
+ *          "pagination_client_items_per_page"=true,
+ *          "formats"={"json", "html", "jsonld"}
+ *     },
+ *     paginationEnabled=true
+ * )
+ * @ApiFilter(BooleanFilter::class, properties={"isPublished"})
+ * @ApiFilter(SearchFilter::class, properties={
+ *      "category"="exact"
+ *     })
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  */
 class Product
@@ -18,28 +57,40 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
+     * @ApiProperty(identifier=false)
+     * @Groups({"product:list"})
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="uuid")
+     *
+     * @ApiProperty(identifier=true)
+     * @Groups({"product:list", "product:item"})
      */
     private $uuid;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"product:list", "product:list:write", "product:item", "product:item:write"})
      */
-    private $title;
+    private string $title;
 
     /**
      * @ORM\Column(type="decimal", precision=6, scale=2)
+     *
+     * @Groups({"product:list", "product:list:write", "product:item", "product:item:write"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"product:list", "product:list:write", "product:item", "product:item:write"})
      */
-    private $quantity;
+    private int $quantity;
 
     /**
      * @ORM\Column(type="datetime")
@@ -49,17 +100,17 @@ class Product
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    private string $description;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isPublished;
+    private bool $isPublished;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDeleted;
+    private bool $isDeleted;
 
     /**
      * @ORM\OneToMany(targetEntity=ProductImage::class, mappedBy="product", cascade={"persist"}, orphanRemoval=true)
@@ -70,12 +121,14 @@ class Product
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(type="string", length=128, nullable=true)
      */
-    private $slug;
+    private string $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
+     *
+     * @Groups({"product:list", "product:list:write", "product:item", "product:item:write"})
      */
-    private $category;
+    private Category $category;
 
     /**
      * @ORM\OneToMany(targetEntity=CardProduct::class, mappedBy="product", orphanRemoval=true)
@@ -90,7 +143,7 @@ class Product
     public function __construct()
     {
         $this->uuid = Uuid::v4();
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
         $this->isPublished = false;
         $this->isDeleted = false;
         $this->productImages = new ArrayCollection();
@@ -144,7 +197,7 @@ class Product
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }

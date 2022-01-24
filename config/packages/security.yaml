@@ -28,6 +28,7 @@ security:
                 path: /admin/
             logout:
                 path: admin_security_logout
+            context: website
         main:
             anonymous: true
             lazy: true
@@ -41,6 +42,7 @@ security:
                 path: /
             logout:
                 path: main_logout
+            context: website
                 # where to redirect after logout
                 # target: app_any_route
 
